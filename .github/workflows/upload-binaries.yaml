@@ -1,0 +1,27 @@
+name: Upload go binaries to release
+on:
+  release:
+    types: [created]
+jobs:
+  build-binaries:
+    name: Build go binaries
+    runs-on: ubuntu-latest
+    env:
+      GOPRIVATE: github.com/swarm-io
+    strategy:
+      matrix:
+        goos: [ linux ]
+        goarch: [ "386", amd64 ]
+    steps:
+      - uses: crazy-max/ghaction-dump-context@v1
+      - uses: actions/checkout@v2
+      - uses: wangyoucao577/go-release-action@v1.22
+        with:
+          # have to use pre_command because this is a docker action so it doesn't inherit things we set in steps
+          pre_command: git config --global url."https://${{ secrets.GIT_RUNNER_USER }}:${{ secrets.GIT_RUNNER_TOKEN }}@github.com".insteadOf "https://github.com"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: "1.17"
+          binary_name: "${{ github.event.repository.name }}"
+          project_path: server

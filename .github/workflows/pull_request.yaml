@@ -1,0 +1,28 @@
+name: Pull Request
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'pkg/**'
+      - 'go.mod'
+      - 'go.sum'
+jobs:
+  conventional-commits-pr:
+    if: github.event.pull_request.draft == false
+    name: Validate Conventional Commits PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: crazy-max/ghaction-dump-context@v1
+      - uses: catalystsquad/action-validate-conventional-commits-pr@v1
+  ensure-compile:
+    if: github.event.pull_request.draft == false
+    name: Ensure project compiles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: crazy-max/ghaction-dump-context@v1
+      - name: Auth Github
+        run: |
+          git config --global url."https://${{ secrets.AUTOMATION_PAT }}@github.com".insteadOf "https://github.com"
+      - name: Compile
+        uses: catalystsquad/action-compile-go@v1
