@@ -2,6 +2,7 @@ package test
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/catalystsquad/data-mover-core/pkg"
 	"github.com/stretchr/testify/assert"
@@ -59,7 +60,18 @@ func (t TestDestination) Persist(data []map[string]interface{}) error {
 func TestConcurrentMove(t *testing.T) {
 	source := TestSource{}
 	dest := TestDestination{}
-	mover, err := pkg.NewDataMover(10, 10, true, source, dest)
+	errorHandler := func(err error) bool {
+		fmt.Println(fmt.Sprintf("encountered error: %v", err))
+		return true
+	}
+	mover, err := pkg.NewDataMover(
+		10,
+		10,
+		source,
+		dest,
+		errorHandler,
+		errorHandler,
+	)
 	assert.NoError(t, err)
 	assert.NotNil(t, mover)
 	stats, err := mover.Move()
