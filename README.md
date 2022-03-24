@@ -4,7 +4,6 @@
 The core of the Data Mover library. This has the interface definitions for Source and Destination connectors, as well as the core logic to instantiate and run a data mover.
 
 ## Usage
-In
 ```go
 source := SomeSourceType{} // instantiate a source that implements the Source interface
 dest := SomeDestType{} // instantiate a destination that implements the Destination interface
@@ -13,6 +12,7 @@ errorHandler := func(err error) bool {
   fmt.Println(fmt.Sprintf("encountered error: %v", err))  
   return true  
 }
+// instantiate a new data mover
 mover, err := pkg.NewDataMover(  
   10, // source parallelism
   10, // destination parallelism
