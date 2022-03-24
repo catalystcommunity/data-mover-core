@@ -15,14 +15,12 @@ jobs:
     steps:
       - uses: crazy-max/ghaction-dump-context@v1
       - uses: catalystsquad/action-validate-conventional-commits-pr@v1
-  ensure-compile:
+  test:
     if: github.event.pull_request.draft == false
-    name: Ensure project compiles
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: crazy-max/ghaction-dump-context@v1
-      - name: Auth Github
-        run: |
-          git config --global url."https://${{ secrets.AUTOMATION_PAT }}@github.com".insteadOf "https://github.com"
-      - name: Compile
-        uses: catalystsquad/action-compile-go@v1
+      - uses: catalystsquad/action-test-go@init
+        with:
+          pre-command: git config --global url."https://${{ secrets.AUTOMATION_PAT }}@github.com".insteadOf "https://github.com"
