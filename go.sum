@@ -1,15 +1,7 @@
 github.com/brianvoe/gofakeit/v6 v6.15.0 h1:lJPGJZ2/07TRGDazyTzD5b18N3y4tmmJpdhCUw18FlI=
 github.com/brianvoe/gofakeit/v6 v6.15.0/go.mod h1:Ow6qC71xtwm79anlwKRlWZW6zVq9D2XHE4QSSMP/rU8=
-github.com/catalystsquad/app-utils-go v1.0.2 h1:iTfJXqJU+29XbRzjYEJSpWRx/HTUzS4ftsJYTQ2+w2E=
-github.com/catalystsquad/app-utils-go v1.0.2/go.mod h1:dcPir5UyHRVwZAuia48iY56lro+kREbKROzEt0s64is=
-github.com/catalystsquad/app-utils-go v1.0.3-0.20220323192432-0932aad27239 h1:xmxlhFoEgOCnBoBly0C7TIpZsJ+UtSSg/cxNX/LftC4=
-github.com/catalystsquad/app-utils-go v1.0.3-0.20220323192432-0932aad27239/go.mod h1:8YFNll9NxO3MZ9A16j1LJiNIwX0lG0ljgBzEVqu/igU=
-github.com/catalystsquad/app-utils-go v1.0.3-0.20220323194011-ccd11d07a6d1 h1:mG9bdylKcI/3At3Cx2UJXeWYxCT7AYq1WbhF1vNIfVY=
-github.com/catalystsquad/app-utils-go v1.0.3-0.20220323194011-ccd11d07a6d1/go.mod h1:8YFNll9NxO3MZ9A16j1LJiNIwX0lG0ljgBzEVqu/igU=
-github.com/catalystsquad/app-utils-go v1.0.3 h1:KwsLkTsphR0jEVFjSHgcEogQ3j0m9cNsMNuIn35iNyc=
-github.com/catalystsquad/app-utils-go v1.0.3/go.mod h1:8YFNll9NxO3MZ9A16j1LJiNIwX0lG0ljgBzEVqu/igU=
-github.com/catalystsquad/app-utils-go v1.0.4-0.20220324154143-4849c3070d57 h1:upR+1ZkTfA7FeqLRxj2nzGzGZrykFVDrmwG68+NDRi4=
-github.com/catalystsquad/app-utils-go v1.0.4-0.20220324154143-4849c3070d57/go.mod h1:8YFNll9NxO3MZ9A16j1LJiNIwX0lG0ljgBzEVqu/igU=
+github.com/catalystsquad/app-utils-go v1.0.4 h1:51S2bNLIhsBEsAAb8gsreMcpAMMG/CttVw8hh2VRFuQ=
+github.com/catalystsquad/app-utils-go v1.0.4/go.mod h1:8YFNll9NxO3MZ9A16j1LJiNIwX0lG0ljgBzEVqu/igU=
 github.com/coreos/go-systemd/v22 v22.3.2/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
