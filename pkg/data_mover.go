@@ -8,17 +8,30 @@ import (
 	"time"
 )
 
+// dataMover is the data mover struct that holds configuration, references to the source and destination connectors
+// and references to the source and destination dispatchers. Fields are intentionally unexported to make the use of
+// the data mover simpler.
 type dataMover struct {
-	continueOnErr                           bool
-	source                                  Source
-	destination                             Destination
-	sourceCount, destinationCount           *uint64
-	start, end                              time.Time
-	sourceErrors, destinationErrors         []error
+	// the source connector
+	source Source
+	// the destination connector
+	destination Destination
+	// counts of records handled
+	sourceCount, destinationCount *uint64
+	// when the Move() started, and when it ended
+	start, end time.Time
+	// dispatchers for source and destination
 	destinationDispatcher, sourceDispatcher *parallelism.Dispatcher
-	run                                     bool
+	// when run is false, Move() will exit. This is true when either there is no more data returned from the source
+	// connector, or when either the source or destination error handler returns false
+	run bool
+	// error handlers. When an error occurs the error handler is called. The error handler should return a boolean value
+	// indicating whether or not the Move() should continue. If the error handler returns true, the Move() keeps running.
+	// if the error handler returns false, the Move() will stop and exit
+	sourceErrorHandler, destErrorHandler func(error) bool
 }
 
+// stats are updated while the mover runs and returned by the Move() method.
 type stats struct {
 	Duration                        time.Duration
 	RecordsPerSecond                float64
@@ -26,18 +39,20 @@ type stats struct {
 	SourceCount, DestinationCount   uint64
 }
 
-func NewDataMover(sourceParallelism, destinationParallelism int, continueOnErr bool, source Source, destination Destination) (*dataMover, error) {
+// NewDataMover is the constructor for a data mover. Use this to instantiate a new configured data mover.
+func NewDataMover(sourceParallelism, destinationParallelism int, source Source, destination Destination, sourceErrorHandler, destErrorHandler func(error) bool) (*dataMover, error) {
 	sourceCount := uint64(0)
 	destinationCount := uint64(0)
 
 	// initialize data mover
 	mover := &dataMover{
-		continueOnErr:    continueOnErr,
-		source:           source,
-		destination:      destination,
-		sourceCount:      &sourceCount,
-		destinationCount: &destinationCount,
-		run:              true,
+		source:             source,
+		destination:        destination,
+		sourceCount:        &sourceCount,
+		destinationCount:   &destinationCount,
+		run:                true,
+		sourceErrorHandler: sourceErrorHandler,
+		destErrorHandler:   destErrorHandler,
 	}
 
 	// set dispatchers
@@ -60,6 +75,8 @@ func NewDataMover(sourceParallelism, destinationParallelism int, continueOnErr b
 	return mover, err
 }
 
+// Move starts the move of data from source to destination. Move blocks until both the source and destination connectors
+// have completed everything they need to do.
 func (d *dataMover) Move() (moveStats stats, err error) {
 	defer func() {
 		recovered := recover()
@@ -83,32 +100,19 @@ func (d *dataMover) Move() (moveStats stats, err error) {
 	return
 }
 
+// getStats() retrieves stats for the Move()
 func (d *dataMover) getStats() stats {
 	duration := d.end.Sub(d.start)
 	moveStats := stats{
-		Duration:          duration,
-		RecordsPerSecond:  float64(*d.destinationCount) / duration.Seconds(),
-		SourceErrors:      d.sourceErrors,
-		DestinationErrors: d.destinationErrors,
-		SourceCount:       *d.sourceCount,
-		DestinationCount:  *d.destinationCount,
-	}
-	// log errors
-	if len(moveStats.SourceErrors) > 0 || len(moveStats.DestinationErrors) > 0 {
-		logging.Log.Error("Move completed with errors")
-		for _, err := range moveStats.SourceErrors {
-			errorutils.LogOnErr(nil, "error getting data from source", err)
-		}
-		for _, err := range moveStats.DestinationErrors {
-			errorutils.LogOnErr(nil, "error persisting data to destination", err)
-		}
+		Duration:         duration,
+		RecordsPerSecond: float64(*d.destinationCount) / duration.Seconds(),
+		SourceCount:      *d.sourceCount,
+		DestinationCount: *d.destinationCount,
 	}
 	// log moveStats
 	logging.Log.WithFields(logrus.Fields{
 		"duration":                moveStats.Duration.Seconds(),
 		"records_per_second":      moveStats.RecordsPerSecond,
-		"num_source_errors":       len(moveStats.SourceErrors),
-		"num_destination_errors":  len(moveStats.DestinationErrors),
 		"num_records_from_source": moveStats.SourceCount,
 		"num_records_to_dest":     moveStats.DestinationCount,
 	}).Info("Move complete")
