@@ -45,8 +45,8 @@ func (h SourceHandler) HandleJob(job parallelism.Job) {
 		// submit data to destination
 		h.dataMover.destinationDispatcher.Submit(DestinationJob{Data: data})
 	} else {
-		// no data returned, set run to false
-		h.dataMover.run = false
+		// no data returned, set sourceLoadComplete to true to stop the source loading loop
+		h.dataMover.sourceLoadComplete = true
 	}
 }
 

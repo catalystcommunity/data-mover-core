@@ -26,7 +26,8 @@ type DestinationHandler struct {
 // HandleJob is the data mover's destination dispatcher job handler implementation. This calls the configured destination
 // connector's Persist() method with the data passed in on the job, from the source connector.
 func (h DestinationHandler) HandleJob(job parallelism.Job) {
-	// only run if the mover says to, this allows graceful exit on error
+	// sourceDispatcher and destDispatcher set run to false when the error handler returns false, so run while the error
+	// handler hasn't indicated that we should stop. This allows for graceful exit on error
 	if h.dataMover.run {
 		data := job.GetData().([]map[string]interface{})
 		err := h.dataMover.destination.Persist(data)

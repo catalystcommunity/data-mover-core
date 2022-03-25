@@ -22,8 +22,11 @@ type dataMover struct {
 	start, end time.Time
 	// dispatchers for source and destination
 	destinationDispatcher, sourceDispatcher *parallelism.Dispatcher
-	// when run is false, Move() will exit. This is true when either there is no more data returned from the source
-	// connector, or when either the source or destination error handler returns false
+	// The source dispatcher sets sourceLoadComplete to true when no data is returned from the source connector, which
+	// stops the source loading loop.
+	sourceLoadComplete bool
+	// when run is false both dispatchers will stop and Move() will exit. Dispatchers set this to false when either the
+	// source or destination error handler returns false, which indicates that we should stop loading and exit
 	run bool
 	// error handlers. When an error occurs the error handler is called. The error handler should return a boolean value
 	// indicating whether or not the Move() should continue. If the error handler returns true, the Move() keeps running.
@@ -87,8 +90,10 @@ func (d *dataMover) Move() (moveStats stats, err error) {
 	}()
 	// start timer
 	d.start = time.Now()
-	// sourceDispatcher sets run to false when it gets an empty dataset back
-	for d.run {
+	// sourceDispatcher sets sourceLoadComplete to true when it gets an empty result set back, or run to false when
+	// the error handler returns false, so run while there is data to load and the error handler hasn't indicated
+	// that we should stop
+	for !d.sourceLoadComplete && d.run {
 		// submit job to source dispatcher. Source dispatcher submits jobs to destination dispatcher to persist data
 		d.sourceDispatcher.Submit(SourceJob{})
 	}
@@ -117,7 +122,7 @@ func (d *dataMover) getStats() stats {
 		"num_records_to_dest":     moveStats.DestinationCount,
 	}).Info("Move complete")
 	if moveStats.SourceCount != moveStats.DestinationCount {
-		logging.Log.Error(nil, "source count does not match destination count")
+		logging.Log.Error("source count does not match destination count")
 	}
 	return moveStats
 }
