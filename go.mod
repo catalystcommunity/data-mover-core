@@ -1,4 +1,4 @@
-module github.com/catalystsquad/data-mover-core
+module github.com/catalystsquad/data-mover-core //
 
 go 1.18
 
