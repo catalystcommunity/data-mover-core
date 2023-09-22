@@ -1,11 +1,13 @@
 package pkg
 
 import (
+	"errors"
+	"time"
+
 	"github.com/catalystsquad/app-utils-go/errorutils"
 	"github.com/catalystsquad/app-utils-go/logging"
 	"github.com/catalystsquad/app-utils-go/parallelism"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
 // dataMover is the data mover struct that holds configuration, references to the source and destination connectors
@@ -101,6 +103,12 @@ func (d *dataMover) Move() (moveStats stats, err error) {
 	d.sourceDispatcher.Wait()
 	d.destinationDispatcher.Wait()
 	d.end = time.Now()
+	if !d.run {
+		// d.run is set to false when the error handler returns false, which
+		// triggers a stop of the mover. return an error to the caller to
+		// indicate that the move was stopped early
+		err = errors.New("error during move")
+	}
 	moveStats = d.getStats()
 	return
 }
