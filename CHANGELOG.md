@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/catalystsquad/data-mover-core/compare/v1.1.0...v1.1.1) (2023-09-22)
+
+
+### Bug Fixes
+
+* return error when the datamover exits early ([#8](https://github.com/catalystsquad/data-mover-core/issues/8)) ([a145a90](https://github.com/catalystsquad/data-mover-core/commit/a145a9001d3bf1abade4463e5b1a4b26e311d806))
+
 # [1.1.0](https://github.com/catalystsquad/data-mover-core/compare/v1.0.0...v1.1.0) (2023-09-22)
 
 
