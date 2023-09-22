@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/catalystsquad/data-mover-core/compare/v1.0.0...v1.1.0) (2023-09-22)
+
+
+### Features
+
+* upgrade go version ([#7](https://github.com/catalystsquad/data-mover-core/issues/7)) ([32458b4](https://github.com/catalystsquad/data-mover-core/commit/32458b48f87565d2327488dbbf904ebfb5ecdbdf))
+
 # 1.0.0 (2022-03-25)
 
 
