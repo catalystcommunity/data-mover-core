@@ -1,6 +1,6 @@
-module github.com/catalystsquad/data-mover-core //
+module github.com/catalystsquad/data-mover-core
 
-go 1.18
+go 1.21
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.15.0
