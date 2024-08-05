@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/catalystsquad/app-utils-go/errorutils"
-	"github.com/catalystsquad/app-utils-go/logging"
-	"github.com/catalystsquad/app-utils-go/parallelism"
+	"github.com/catalystcommunity/app-utils-go/errorutils"
+	"github.com/catalystcommunity/app-utils-go/logging"
+	"github.com/catalystcommunity/app-utils-go/parallelism"
 	"github.com/sirupsen/logrus"
 )
 

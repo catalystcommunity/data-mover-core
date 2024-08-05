@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/brianvoe/gofakeit/v6"
-	"github.com/catalystsquad/data-mover-core/pkg"
+	"github.com/catalystcommunity/data-mover-core/pkg"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"sort"

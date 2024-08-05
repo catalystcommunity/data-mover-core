@@ -1,10 +1,10 @@
-module github.com/catalystsquad/data-mover-core
+module github.com/catalystcommunity/data-mover-core
 
 go 1.21
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.15.0
-	github.com/catalystsquad/app-utils-go v1.0.4
+	github.com/catalystcommunity/app-utils-go v1.0.4
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.1
 )

@@ -1,8 +1,8 @@
 package pkg
 
 import (
-	"github.com/catalystsquad/app-utils-go/logging"
-	"github.com/catalystsquad/app-utils-go/parallelism"
+	"github.com/catalystcommunity/app-utils-go/logging"
+	"github.com/catalystcommunity/app-utils-go/parallelism"
 	"sync/atomic"
 )
 
@@ -16,7 +16,7 @@ type Destination interface {
 }
 
 // Dispatcher implementations - These have nothing to do with connector interfaces and are used internally by the data mover.
-// see https://github.com/catalystsquad/app-utils-go/blob/main/parallelism/README.md for more info
+// see https://github.com/catalystcommunity/app-utils-go/blob/main/parallelism/README.md for more info
 
 // DestinationHandler is the data mover's destination dispatcher job handler
 type DestinationHandler struct {
