@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/catalystcommunity/data-mover-core/compare/v1.1.1...v1.1.2) (2024-11-07)
+
+
+### Bug Fixes
+
+* move to catalystcommunity ([5a13791](https://github.com/catalystcommunity/data-mover-core/commit/5a13791b7385261784987d47f79da03be84ee30f))
+* update catalystcommunity dependency version ([#9](https://github.com/catalystcommunity/data-mover-core/issues/9)) ([c4bef16](https://github.com/catalystcommunity/data-mover-core/commit/c4bef16c51aac69c2155fc166cf088a47b1f40e2))
+
 ## [1.1.1](https://github.com/catalystcommunity/data-mover-core/compare/v1.1.0...v1.1.1) (2023-09-22)
 
 
